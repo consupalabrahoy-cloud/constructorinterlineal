@@ -5,7 +5,6 @@ def copy_to_clipboard_button(label, text_to_copy):
     """
     Crea un botón que copia el texto dado al portapapeles.
     """
-    # Se usa una clave única para cada botón para evitar errores de renderizado en Streamlit
     st.button(
         label,
         key=f"copy_{label}",
@@ -20,7 +19,7 @@ st.title("Procesador de Texto Interlineal")
 st.write("Ingresa dos textos y el programa los unirá línea por línea.")
 
 # --- Inicializar st.session_state para almacenar los valores ---
-# Esto asegura que las variables existan desde el inicio de la aplicación
+# Se inicializa solo si las claves no existen para evitar errores de renderizado
 if 'texto1' not in st.session_state:
     st.session_state.texto1 = ""
 if 'texto2' not in st.session_state:
@@ -32,7 +31,7 @@ col1, col2 = st.columns(2)
 
 with col1:
     # Se usa el key y el valor de st.session_state para conectar el widget
-    st.text_area(
+    st.session_state.texto1 = st.text_area(
         "Texto 1", 
         height=300, 
         key="texto1", 
@@ -41,7 +40,7 @@ with col1:
 
 with col2:
     # Se usa el key y el valor de st.session_state para conectar el widget
-    st.text_area(
+    st.session_state.texto2 = st.text_area(
         "Texto 2", 
         height=300, 
         key="texto2", 
@@ -50,10 +49,13 @@ with col2:
 
 # --- Botones de acción ---
 # El botón de limpiar restablece el estado de la aplicación.
+# Se usa st.session_state para manejar el estado de las áreas de texto.
 if st.button("Limpiar campos"):
     st.session_state.texto1 = ""
     st.session_state.texto2 = ""
     st.session_state.resultado = ""
+    st.experimental_rerun()
+
 
 # El botón de procesar se ejecuta y calcula el resultado.
 if st.button("Procesar"):
