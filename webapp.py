@@ -32,13 +32,30 @@ col1, col2 = st.columns(2)
 
 with col1:
     # Se usa el key y el valor de st.session_state para conectar el widget
-    st.session_state.texto1 = st.text_area("Texto 1", height=300, key="texto1", value=st.session_state.texto1)
+    st.text_area(
+        "Texto 1", 
+        height=300, 
+        key="texto1", 
+        value=st.session_state.texto1
+    )
 
 with col2:
     # Se usa el key y el valor de st.session_state para conectar el widget
-    st.session_state.texto2 = st.text_area("Texto 2", height=300, key="texto2", value=st.session_state.texto2)
+    st.text_area(
+        "Texto 2", 
+        height=300, 
+        key="texto2", 
+        value=st.session_state.texto2
+    )
 
 # --- Botones de acción ---
+# El botón de limpiar restablece el estado de la aplicación.
+if st.button("Limpiar campos"):
+    st.session_state.texto1 = ""
+    st.session_state.texto2 = ""
+    st.session_state.resultado = ""
+
+# El botón de procesar se ejecuta y calcula el resultado.
 if st.button("Procesar"):
     # Acceder a los valores desde st.session_state
     lista1 = st.session_state.texto1.split("\n")
@@ -51,12 +68,6 @@ if st.button("Procesar"):
     
     # Almacenar el resultado en el estado de la sesión
     st.session_state.resultado = resultado_str
-
-if st.button("Limpiar campos"):
-    # Al hacer clic, se resetean los valores en el estado de la sesión
-    st.session_state.texto1 = ""
-    st.session_state.texto2 = ""
-    st.session_state.resultado = ""
 
 # Mostrar el resultado desde el estado de la sesión
 st.text_area("Resultado", st.session_state.resultado, height=400)
