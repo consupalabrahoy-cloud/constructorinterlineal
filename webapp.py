@@ -19,36 +19,48 @@ def copy_to_clipboard_button(label, text_to_copy):
 st.title("Procesador de Texto Interlineal")
 st.write("Ingresa dos textos y el programa los unirá línea por línea.")
 
-# Inicializar st.session_state para almacenar los valores
-if 'resultado_interlineal' not in st.session_state:
-    st.session_state['resultado_interlineal'] = ""
+# --- Inicializar st.session_state para almacenar los valores ---
+# Esto asegura que las variables existan desde el inicio de la aplicación
+if 'texto1' not in st.session_state:
+    st.session_state.texto1 = ""
+if 'texto2' not in st.session_state:
+    st.session_state.texto2 = ""
+if 'resultado' not in st.session_state:
+    st.session_state.resultado = ""
 
 col1, col2 = st.columns(2)
 
 with col1:
-    texto1 = st.text_area("Texto 1", height=300)
+    # Se usa el key y el valor de st.session_state para conectar el widget
+    st.session_state.texto1 = st.text_area("Texto 1", height=300, key="texto1", value=st.session_state.texto1)
 
 with col2:
-    texto2 = st.text_area("Texto 2", height=300)
+    # Se usa el key y el valor de st.session_state para conectar el widget
+    st.session_state.texto2 = st.text_area("Texto 2", height=300, key="texto2", value=st.session_state.texto2)
 
+# --- Botones de acción ---
 if st.button("Procesar"):
-    lista1 = texto1.split("\n")
-    lista2 = texto2.split("\n")
+    # Acceder a los valores desde st.session_state
+    lista1 = st.session_state.texto1.split("\n")
+    lista2 = st.session_state.texto2.split("\n")
 
     resultado_str = ""
-    # Se utiliza min() para asegurar que el bucle no exceda el texto más corto
+    # Usar min() para asegurar que el bucle no exceda el texto más corto
     for i in range(min(len(lista1), len(lista2))):
         resultado_str += f"{lista1[i]}\n{lista2[i]}\n"
     
     # Almacenar el resultado en el estado de la sesión
-    st.session_state['resultado_interlineal'] = resultado_str
+    st.session_state.resultado = resultado_str
 
-    # Forzar una nueva ejecución para mostrar el resultado y el botón de copiar
-    st.experimental_rerun()
+if st.button("Limpiar campos"):
+    # Al hacer clic, se resetean los valores en el estado de la sesión
+    st.session_state.texto1 = ""
+    st.session_state.texto2 = ""
+    st.session_state.resultado = ""
 
 # Mostrar el resultado desde el estado de la sesión
-st.text_area("Resultado", st.session_state['resultado_interlineal'], height=400, key="resultado_final")
+st.text_area("Resultado", st.session_state.resultado, height=400)
     
 # Botón para copiar el resultado al portapapeles
 # La función se llama con el texto que se quiere copiar desde el estado de la sesión
-copy_to_clipboard_button("Copiar resultado", st.session_state['resultado_interlineal'])
+copy_to_clipboard_button("Copiar resultado", st.session_state.resultado)
