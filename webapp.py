@@ -31,20 +31,18 @@ col1, col2 = st.columns(2)
 
 with col1:
     # Se usa el key y el valor de st.session_state para conectar el widget
-    st.session_state.texto1 = st.text_area(
+    st.text_area(
         "Texto 1", 
         height=300, 
-        key="texto1", 
-        value=st.session_state.texto1
+        key="texto1"
     )
 
 with col2:
     # Se usa el key y el valor de st.session_state para conectar el widget
-    st.session_state.texto2 = st.text_area(
+    st.text_area(
         "Texto 2", 
         height=300, 
-        key="texto2", 
-        value=st.session_state.texto2
+        key="texto2"
     )
 
 # --- Botones de acción ---
@@ -55,7 +53,6 @@ if st.button("Limpiar campos"):
     st.session_state.texto2 = ""
     st.session_state.resultado = ""
     st.experimental_rerun()
-
 
 # El botón de procesar se ejecuta y calcula el resultado.
 if st.button("Procesar"):
