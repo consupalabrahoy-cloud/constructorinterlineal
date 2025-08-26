@@ -1,5 +1,17 @@
 import streamlit as st
-from st_copy_to_clipboard import st_copy_to_clipboard
+
+# Función para copiar al portapapeles usando HTML y JavaScript
+def st_copy_to_clipboard(text_to_copy):
+    """
+    Crea un botón para copiar el texto dado al portapapeles.
+    """
+    st.button(
+        "Copiar al portapapeles",
+        on_click=lambda: st.write(
+            f"<script>navigator.clipboard.writeText(`{text_to_copy}`)</script>",
+            unsafe_allow_html=True
+        )
+    )
 
 st.title("Procesador de Texto Interlineal")
 st.write("Ingresa dos textos y el programa los unirá línea por línea.")
@@ -24,4 +36,3 @@ if st.button("Procesar"):
     
     # Nuevo botón para copiar
     st_copy_to_clipboard(resultado_str)
-
