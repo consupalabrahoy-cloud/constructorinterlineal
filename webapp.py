@@ -27,6 +27,13 @@ with col1:
 with col2:
     texto2 = st.text_area("Texto 2", height=300)
 
+# El botón de limpiar restablece el estado de la aplicación.
+# Se usa st.session_state para manejar el estado de las áreas de texto.
+if st.button("Limpiar campos"):
+    st.session_state.texto1 = ""
+    st.session_state.texto2 = ""
+    st.experimental_rerun()
+
 if st.button("Procesar"):
     lista1 = texto1.split("\n")
     lista2 = texto2.split("\n")
@@ -42,4 +49,6 @@ if st.button("Procesar"):
     # Botón para copiar el resultado al portapapeles
     # La función se llama con el texto que se quiere copiar
     copy_to_clipboard_button("Copiar resultado", resultado_str)
+
+
 
