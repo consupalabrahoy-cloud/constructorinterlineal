@@ -16,6 +16,10 @@ def st_copy_to_clipboard(text_to_copy):
 st.title("Procesador de Texto Interlineal")
 st.write("Ingresa dos textos y el programa los unirá línea por línea.")
 
+# Inicializa st.session_state para almacenar el resultado
+if 'resultado_interlineal' not in st.session_state:
+    st.session_state.resultado_interlineal = ""
+
 col1, col2 = st.columns(2)
 
 with col1:
@@ -32,7 +36,11 @@ if st.button("Procesar"):
     for i in range(min(len(lista1), len(lista2))):
         resultado_str += f"{lista1[i]}\n{lista2[i]}\n"
 
-    st.text_area("Resultado", resultado_str, height=400, key="resultado_final")
+    # Almacena el resultado en el estado de la sesión
+    st.session_state.resultado_interlineal = resultado_str
+
+# Muestra el resultado desde el estado de la sesión
+st.text_area("Resultado", st.session_state.resultado_interlineal, height=400, key="resultado_final")
     
-    # Nuevo botón para copiar
-    st_copy_to_clipboard(resultado_str)
+# Botón para copiar el resultado
+st_copy_to_clipboard(st.session_state.resultado_interlineal)
