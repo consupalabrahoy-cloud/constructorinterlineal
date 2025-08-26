@@ -31,21 +31,19 @@ if 'resultado' not in st.session_state:
 col1, col2 = st.columns(2)
 
 with col1:
-    # Vincula el campo de texto con st.session_state
+    # El key es suficiente para vincular el campo de texto con st.session_state
     texto1 = st.text_area(
         "Texto 1",
         height=300,
-        key="texto1",
-        value=st.session_state.texto1
+        key="texto1"
     )
 
 with col2:
-    # Vincula el campo de texto con st.session_state
+    # El key es suficiente para vincular el campo de texto con st.session_state
     texto2 = st.text_area(
         "Texto 2",
         height=300,
-        key="texto2",
-        value=st.session_state.texto2
+        key="texto2"
     )
 
 # Botones de acción
@@ -61,7 +59,6 @@ if st.button("Limpiar campos"):
     st.session_state.texto1 = ""
     st.session_state.texto2 = ""
     st.session_state.resultado = ""
-    # st.experimental_rerun() no es necesario aquí si se usa el value en los text_area
 
 # Muestra el resultado
 st.text_area("Resultado", st.session_state.resultado, height=400)
