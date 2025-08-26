@@ -42,7 +42,6 @@ if st.button("Procesar"):
 
     # Almacena el resultado en el estado de la sesión
     st.session_state.resultado_interlineal = resultado_str
-    st.experimental_rerun()
 
 # Muestra el resultado desde el estado de la sesión
 st.text_area("Resultado", st.session_state.resultado_interlineal, height=400, key="resultado_final")
