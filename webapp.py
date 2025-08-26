@@ -1,14 +1,18 @@
 import streamlit as st
 
-# Función para copiar al portapapeles usando HTML y JavaScript
-def st_copy_to_clipboard(text_to_copy):
+# Función para copiar al portapapeles de manera confiable
+def st_copy_to_clipboard(label, text_to_copy):
     """
-    Crea un botón para copiar el texto dado al portapapeles.
+    Crea un botón que copia el texto dado al portapapeles de manera confiable.
     """
     st.button(
-        "Copiar al portapapeles",
+        label,
         on_click=lambda: st.write(
-            f"<script>navigator.clipboard.writeText(`{text_to_copy}`)</script>",
+            f"""
+            <script>
+                navigator.clipboard.writeText(`{text_to_copy}`);
+            </script>
+            """,
             unsafe_allow_html=True
         )
     )
@@ -38,9 +42,10 @@ if st.button("Procesar"):
 
     # Almacena el resultado en el estado de la sesión
     st.session_state.resultado_interlineal = resultado_str
+    st.experimental_rerun()
 
 # Muestra el resultado desde el estado de la sesión
 st.text_area("Resultado", st.session_state.resultado_interlineal, height=400, key="resultado_final")
     
 # Botón para copiar el resultado
-st_copy_to_clipboard(st.session_state.resultado_interlineal)
+st_copy_to_clipboard("Copiar resultado", st.session_state.resultado_interlineal)
